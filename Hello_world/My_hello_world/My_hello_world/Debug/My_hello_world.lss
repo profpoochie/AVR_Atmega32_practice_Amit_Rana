@@ -3,29 +3,29 @@ My_hello_world.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000000a0  00000000  00000000  00000054  2**1
+  0 .text         000000a2  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  000000f4  2**0
+  1 .data         00000000  00800060  00800060  000000f6  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  000000f4  2**0
+  2 .comment      00000030  00000000  00000000  000000f6  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000124  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000128  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  00000160  2**0
+  4 .debug_aranges 00000020  00000000  00000000  00000164  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   0000062a  00000000  00000000  00000180  2**0
+  5 .debug_info   0000062a  00000000  00000000  00000184  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000058b  00000000  00000000  000007aa  2**0
+  6 .debug_abbrev 0000058b  00000000  00000000  000007ae  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000024e  00000000  00000000  00000d35  2**0
+  7 .debug_line   0000024e  00000000  00000000  00000d39  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000024  00000000  00000000  00000f84  2**2
+  8 .debug_frame  00000024  00000000  00000000  00000f88  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000337  00000000  00000000  00000fa8  2**0
+  9 .debug_str    00000337  00000000  00000000  00000fac  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000048  00000000  00000000  000012df  2**0
+ 10 .debug_loc    00000048  00000000  00000000  000012e3  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000010  00000000  00000000  00001327  2**0
+ 11 .debug_ranges 00000010  00000000  00000000  0000132b  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -61,7 +61,7 @@ Disassembly of section .text:
   5c:	de bf       	out	0x3e, r29	; 62
   5e:	cd bf       	out	0x3d, r28	; 61
   60:	0e 94 36 00 	call	0x6c	; 0x6c <main>
-  64:	0c 94 4e 00 	jmp	0x9c	; 0x9c <_exit>
+  64:	0c 94 4f 00 	jmp	0x9e	; 0x9e <_exit>
 
 00000068 <__bad_interrupt>:
   68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -80,8 +80,8 @@ int main(void)
     while (1) 
     {
 		// this code will repeat infinitely
-		PORTB = 0xff;
-  70:	8f ef       	ldi	r24, 0xFF	; 255
+		PORTB = 0x55;
+  70:	85 e5       	ldi	r24, 0x55	; 85
   72:	88 bb       	out	0x18, r24	; 24
 	#else
 		//round up by default
@@ -99,21 +99,22 @@ int main(void)
   82:	00 c0       	rjmp	.+0      	; 0x84 <main+0x18>
   84:	00 00       	nop
 		_delay_ms(1000);
-		PORTB = 0x00;
-  86:	18 ba       	out	0x18, r1	; 24
-  88:	2f ef       	ldi	r18, 0xFF	; 255
-  8a:	83 ed       	ldi	r24, 0xD3	; 211
-  8c:	90 e3       	ldi	r25, 0x30	; 48
-  8e:	21 50       	subi	r18, 0x01	; 1
-  90:	80 40       	sbci	r24, 0x00	; 0
-  92:	90 40       	sbci	r25, 0x00	; 0
-  94:	e1 f7       	brne	.-8      	; 0x8e <main+0x22>
-  96:	00 c0       	rjmp	.+0      	; 0x98 <main+0x2c>
-  98:	00 00       	nop
-  9a:	ea cf       	rjmp	.-44     	; 0x70 <main+0x4>
+		PORTB = 0xAA;
+  86:	8a ea       	ldi	r24, 0xAA	; 170
+  88:	88 bb       	out	0x18, r24	; 24
+  8a:	2f ef       	ldi	r18, 0xFF	; 255
+  8c:	83 ed       	ldi	r24, 0xD3	; 211
+  8e:	90 e3       	ldi	r25, 0x30	; 48
+  90:	21 50       	subi	r18, 0x01	; 1
+  92:	80 40       	sbci	r24, 0x00	; 0
+  94:	90 40       	sbci	r25, 0x00	; 0
+  96:	e1 f7       	brne	.-8      	; 0x90 <main+0x24>
+  98:	00 c0       	rjmp	.+0      	; 0x9a <main+0x2e>
+  9a:	00 00       	nop
+  9c:	e9 cf       	rjmp	.-46     	; 0x70 <main+0x4>
 
-0000009c <_exit>:
-  9c:	f8 94       	cli
+0000009e <_exit>:
+  9e:	f8 94       	cli
 
-0000009e <__stop_program>:
-  9e:	ff cf       	rjmp	.-2      	; 0x9e <__stop_program>
+000000a0 <__stop_program>:
+  a0:	ff cf       	rjmp	.-2      	; 0xa0 <__stop_program>

@@ -20,9 +20,9 @@ int main(void)
     while (1) 
     {
 		// this code will repeat infinitely
-		PORTB = 0xff;
+		PORTB = 0x55;
 		_delay_ms(1000);
-		PORTB = 0x00;
+		PORTB = 0xAA;
 		_delay_ms(1000);
     }
 }
